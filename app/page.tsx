@@ -154,6 +154,7 @@ export default function Home() {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [sessionRestored, setSessionRestored] = useState(false);
   const [invitationOpen, setInvitationOpen] = useState(false);
+  const [finalWordsOpen, setFinalWordsOpen] = useState(false);
 
   useEffect(() => {
     const wasUnlocked = sessionStorage.getItem("archive-unlocked") === "true";
@@ -1167,6 +1168,196 @@ export default function Home() {
           .floating-invitation { width:112px; min-height:76px; right:12px; bottom:14px; }
           .invitation-popup-card { padding:2rem 1rem 1.2rem; }
         }
+        .final-words-note {
+          position: relative;
+          margin: 1.25rem auto .5rem;
+          max-width: 390px;
+          padding: 1.2rem 1.15rem 1.1rem;
+          text-align: left;
+          color: #643d30;
+          border: 1px solid rgba(126,83,58,.42);
+          background:
+            radial-gradient(ellipse at 90% 100%, rgba(174,111,67,.12), transparent 38%),
+            repeating-linear-gradient(0deg, rgba(99,61,39,.025) 0 1px, transparent 1px 5px),
+            linear-gradient(145deg, #fff7e8, #ead7b9);
+          box-shadow: 0 8px 17px rgba(73,45,30,.14), inset 0 0 0 4px rgba(255,255,255,.28);
+          transform: rotate(-.6deg);
+        }
+        .final-words-note::before {
+          content: "";
+          position: absolute;
+          top: -9px;
+          left: 50%;
+          width: 17px;
+          height: 17px;
+          border-radius: 50%;
+          transform: translateX(-50%);
+          background: radial-gradient(circle at 32% 27%, #e8c99a, #a97743 68%, #79502e);
+          border: 1px solid rgba(103,65,37,.55);
+          box-shadow: 0 2px 4px rgba(49,30,18,.25), inset 0 1px 2px rgba(255,255,255,.6);
+        }
+        .final-words-leaf {
+          position: absolute;
+          right: 12px;
+          bottom: 7px;
+          color: #a34f35;
+          font: 2rem Georgia, serif;
+          transform: rotate(-24deg);
+          opacity: .82;
+        }
+        .final-words-kicker {
+          margin: .1rem 0 .45rem;
+          color: #95664e;
+          font: 600 .58rem Georgia, serif;
+          letter-spacing: .17em;
+          text-transform: uppercase;
+        }
+        .final-words-note h3 {
+          margin: 0 0 .45rem;
+          color: #63382d;
+          font: italic 1.55rem/1.1 Georgia, serif;
+        }
+        .final-words-note p {
+          max-width: 290px;
+          margin: 0;
+          color: #805c49;
+          font: italic .88rem/1.55 Georgia, serif;
+        }
+        .final-words-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: .45rem;
+          margin-top: .85rem;
+          padding: .65rem .9rem;
+          border: 1px solid rgba(126,83,58,.45);
+          border-radius: 2px;
+          color: #f8eddd;
+          background: linear-gradient(145deg, #895047, #63332f);
+          box-shadow: 0 3px 0 rgba(74,39,32,.16);
+          font: 600 .62rem Georgia, serif;
+          letter-spacing: .06em;
+          cursor: pointer;
+          transition: transform .2s ease, filter .2s ease;
+        }
+        .final-words-button:hover { transform: translateY(-2px); filter: brightness(1.07); }
+        .final-words-letter {
+          position: relative;
+          margin: 1.2rem auto .25rem;
+          max-width: 440px;
+          padding: 1.7rem clamp(1rem, 4vw, 2rem) 1.45rem;
+          text-align: left;
+          color: #5f3b30;
+          border: 1px solid rgba(126,83,58,.48);
+          background:
+            radial-gradient(ellipse at 8% 5%, rgba(178,123,72,.12), transparent 30%),
+            radial-gradient(ellipse at 95% 95%, rgba(178,123,72,.13), transparent 32%),
+            repeating-linear-gradient(0deg, rgba(99,61,39,.025) 0 1px, transparent 1px 5px),
+            #f8eedc;
+          box-shadow: 0 13px 28px rgba(73,45,30,.17), inset 0 0 0 6px rgba(255,255,255,.24);
+        }
+        .final-words-letter::after {
+          content: "❦";
+          position: absolute;
+          right: 13px;
+          bottom: 8px;
+          color: #a35f49;
+          font: 1.5rem Georgia, serif;
+          opacity: .7;
+        }
+        .final-words-letter-topline {
+          display: flex;
+          justify-content: space-between;
+          gap: .7rem;
+          padding-bottom: .7rem;
+          border-bottom: 1px solid rgba(126,83,58,.28);
+          color: #9a7258;
+          font: 600 .5rem Georgia, serif;
+          letter-spacing: .13em;
+        }
+        .final-words-letter h3 {
+          margin: 1.1rem 0 .8rem;
+          color: #693c30;
+          font: italic 1.8rem/1.1 Georgia, serif;
+        }
+        .final-words-letter p {
+          margin: 0 0 .8rem;
+          font: .88rem/1.75 Georgia, serif;
+          color: #725344;
+        }
+        .final-words-signoff {
+          margin-top: 1.1rem !important;
+          font-style: italic !important;
+          color: #874d40 !important;
+        }
+        .final-words-letter-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: end;
+          gap: .8rem;
+          margin-top: 1rem;
+          padding-top: .7rem;
+          border-top: 1px solid rgba(126,83,58,.25);
+          color: #946d55;
+          font: italic .75rem Georgia, serif;
+        }
+        .final-words-popup-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          overflow-y: auto;
+          background: rgba(31, 22, 19, .76);
+          backdrop-filter: blur(7px);
+          -webkit-backdrop-filter: blur(7px);
+        }
+        .final-words-popup-card {
+          position: relative;
+          width: min(100%, 560px);
+          max-height: min(88dvh, 900px);
+          overflow-y: auto;
+          padding: clamp(1.1rem, 3vw, 1.7rem);
+          border: 1px solid rgba(197, 157, 112, .65);
+          background: linear-gradient(145deg, #e9d7bd, #f5e8d3 48%, #e7d1b2);
+          box-shadow: 0 25px 80px rgba(0,0,0,.38), inset 0 0 0 5px rgba(255,255,255,.22);
+          scrollbar-color: #a77b5c #ead9c2;
+        }
+        .final-words-popup-card .final-words-letter {
+          width: 100%;
+          max-width: none;
+          margin: 0;
+          padding: clamp(1.5rem, 4vw, 2.4rem);
+          box-shadow: 0 10px 25px rgba(73,45,30,.12), inset 0 0 0 6px rgba(255,255,255,.24);
+        }
+        .final-words-popup-close {
+          position: sticky;
+          top: 0;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: .45rem;
+          width: fit-content;
+          margin: 0 0 .8rem auto;
+          padding: .5rem .7rem;
+          border: 1px solid rgba(126,83,58,.4);
+          color: #704638;
+          background: rgba(255,248,235,.9);
+          font: .7rem Georgia, serif;
+          cursor: pointer;
+        }
+        @media(max-width:600px) {
+          .final-words-note { padding: 1.1rem .9rem .95rem; }
+          .final-words-letter { padding: 1.35rem 1rem 1.2rem; }
+          .final-words-letter p { font-size: .84rem; }
+          .final-words-letter-topline { font-size: .44rem; }
+          .final-words-popup-backdrop { padding: .55rem; }
+          .final-words-popup-card { max-height: 92dvh; padding: .7rem; }
+          .final-words-popup-card .final-words-letter { padding: 1.35rem 1rem 1.2rem; }
+        }
       `}</style>
       <div className="grain" aria-hidden="true" />
       <div className="ambient ambient-one" aria-hidden="true" />
@@ -1591,7 +1782,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setInvitationOpen(false)}
+            onClick={() => { setInvitationOpen(false); setFinalWordsOpen(false); }}
           >
             <motion.section
               className="invitation-popup-card"
@@ -1608,7 +1799,7 @@ export default function Home() {
                 className="invitation-popup-close"
                 type="button"
                 aria-label="Close invitation"
-                onClick={() => setInvitationOpen(false)}
+                onClick={() => { setInvitationOpen(false); setFinalWordsOpen(false); }}
               >
                 <X size={19} />
               </button>
@@ -1622,12 +1813,91 @@ export default function Home() {
               </div>
               <p className="invitation-popup-note">Remember the excitement, the little butterflies, and the happiness we found in the smallest things. I hope you never forget how beautiful those moments felt.</p>
               <span className="invitation-popup-flourish">— — ❦ — —</span>
+
+              <div className="final-words-note">
+                <span className="final-words-leaf" aria-hidden="true">❧</span>
+                <p className="final-words-kicker">A little note, kept between these pages</p>
+                <h3>Before you leave...</h3>
+                <p>There’s one last thing I want you to know.</p>
+                <button
+                  className="final-words-button"
+                  type="button"
+                  onClick={() => {
+                    setInvitationOpen(false);
+                    setFinalWordsOpen(false);
+                    window.location.href = "/final-words.pdf";
+                  }}
+                  aria-expanded={false}
+                >
+                  Read my final words →
+                </button>
+              </div>
             </motion.section>
           </motion.div>
         )}
       </AnimatePresence>
 
       
+
+      <AnimatePresence>
+        {finalWordsOpen && (
+          <motion.div
+            className="final-words-popup-backdrop"
+            role="presentation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setFinalWordsOpen(false)}
+          >
+            <motion.section
+              className="final-words-popup-card"
+              role="dialog"
+              aria-modal="true"
+              aria-label="My final words"
+              initial={{ opacity: 0, y: 28, scale: .94, rotate: -1 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, y: 16, scale: .97 }}
+              transition={{ type: "spring", stiffness: 220, damping: 23 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="final-words-popup-close"
+                type="button"
+                onClick={() => setFinalWordsOpen(false)}
+              >
+                <X size={15} />
+                CLOSE LETTER
+              </button>
+              <article className="final-words-letter">
+                <div className="final-words-letter-topline">
+                  <span>THE LAST LITTLE LETTER</span>
+                  <span>KEPT WITH LOVE</span>
+                </div>
+                <h3>Abbas, my dear,</h3>
+                <p>
+                  If you’re reading this, I hope you take a moment to remember us—not only how things ended, but how happy we were in the little moments that made our story ours.
+                </p>
+                <p>
+                  Remember the excitement, the butterflies, the way the smallest things could make an ordinary day feel special. Remember how we looked forward to talking, how a few words could make us smile, and how much happiness we found in simply having each other.
+                </p>
+                <p>
+                  I don’t want these memories to be remembered only with sadness. They were real, they mattered, and they brought so much happiness into my life. Whatever happens from here, I’ll always be grateful that I got to experience those moments with you.
+                </p>
+                <p>
+                  I made this little archive so that, for a while, you could step back into those memories and feel the warmth they once held. You don’t have to do anything with these words. I only wanted you to know what they meant to me.
+                </p>
+                <p className="final-words-signoff">
+                  Please remember the excitement, the happiness, and the little world we once made together.
+                </p>
+                <div className="final-words-letter-footer">
+                  <span>With all the feelings I couldn’t fit into these pages,</span>
+                  <span aria-hidden="true">❦</span>
+                </div>
+              </article>
+            </motion.section>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {activeSection && (
